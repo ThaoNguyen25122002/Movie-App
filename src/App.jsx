@@ -1,22 +1,15 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FeatureMovie from "./components/FeatureMovies";
+import Header from "./components/Header";
+import MediaList from "./components/MediaList";
+import { TOP_RATED_TABS, TRENDING_TABS } from "./libs/constants";
 
 function App() {
   return (
     <div>
-      <header className="flex h-14 items-center justify-between bg-slate-950 px-8 text-white">
-        <div className="flex items-center gap-4">
-          <img src="./netflix.png" alt="" className="w-16 sm:w-28" />
-          <a href="">Phim</a>
-          <a href="">Truyền Hình</a>
-        </div>
-        <div>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className="cursor-pointer"
-          />
-        </div>
-      </header>
+      <Header />
+      <FeatureMovie />
+      <MediaList title="Trending" tabs={TRENDING_TABS} />
+      <MediaList title="Top Rated" tabs={TOP_RATED_TABS} />
     </div>
   );
 }
