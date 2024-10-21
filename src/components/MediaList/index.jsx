@@ -1,31 +1,15 @@
-import { useEffect, useState } from "react";
-import MovieCard from "./MovieCard";
+import { useState } from "react";
+import MovieCard from "@components/MovieCard";
+import useFetch from "@hooks/useFetch";
 
 const MediaList = ({ title, tabs }) => {
-  const [mediaList, setMediaList] = useState([]);
+  // const [mediaList, setMediaList] = useState([]);
   const [activeTabId, setActiveTabId] = useState(tabs[0]?.id);
   console.log("re-render", title);
+  const url = tabs.find((tab) => tab.id === activeTabId)?.url;
+  const { data } = useFetch({ url });
+  const mediaList = (data.results || []).slice(0, 12);
 
-  useEffect(() => {
-    const url = tabs.find((tab) => tab.id === activeTabId)?.url;
-    // console.log(url);
-
-    if (url) {
-      // chi co api cua movie va tv la hoat dong con cac api khac bi loi
-      fetch(url, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNTg0NWI5ODA4ZjE5YTMxMjcwNGRhYTI3YmE2Y2ZkZCIsIm5iZiI6MTcyOTQwNTcyNC4yNDEzMzcsInN1YiI6IjY3MTRhMjdhOTlmMjJmMzI2YWFkNWM0YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.c46373CIr54amIBEtFRiAwZp9khbMFVzrN3_eg2qqEs`,
-        },
-      }).then(async (res) => {
-        const data = await res.json();
-        const trendingMediaList = data.results.slice(0, 12);
-        setMediaList(trendingMediaList);
-        // console.log(data.results);
-      });
-    }
-  }, [activeTabId, tabs]);
   return (
     <div className="bg-black px-8 py-10 text-[1.2vw] text-white">
       <div className="mb-6 flex items-center gap-4">
@@ -50,6 +34,7 @@ const MediaList = ({ title, tabs }) => {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 lg:gap-6">
         {mediaList.map((media) => (
           <MovieCard
+            id={media.id}
             key={media.id}
             title={media.title || media.name}
             releaseDate={media.release_date || media.first_air_date}
