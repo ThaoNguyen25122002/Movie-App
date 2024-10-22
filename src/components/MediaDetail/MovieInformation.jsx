@@ -1,7 +1,7 @@
 import { currencyFormatter } from "@libs/utils";
 
 const MovieInformation = ({ movieInfo = {} }) => {
-  console.log(movieInfo);
+  // console.log(movieInfo);
 
   return (
     <div>

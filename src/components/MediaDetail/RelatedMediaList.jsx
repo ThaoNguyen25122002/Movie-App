@@ -1,10 +1,10 @@
 import Loading from "@components/Loading";
 import MovieCard from "@components/MovieCard";
 
-const RelatedMediaList = ({ mediaList = [], isLoading }) => {
+const RelatedMediaList = ({ mediaList = [], isLoading, title }) => {
   return (
     <div>
-      <p className="mb-4 mt-6 text-[1.4vw] font-bold">More Like This</p>
+      <p className="mb-4 mt-6 text-[1.4vw] font-bold">{title}</p>
       {isLoading ? (
         <Loading />
       ) : (
@@ -13,8 +13,8 @@ const RelatedMediaList = ({ mediaList = [], isLoading }) => {
             <MovieCard
               key={media.id}
               id={media.id}
-              title={media.title}
-              releaseDate={media.release_date}
+              title={media.title || media.name}
+              releaseDate={media.release_date || media.first_air_date}
               poster={media.poster_path}
               point={media.vote_average}
               mediaType={media.media_type}

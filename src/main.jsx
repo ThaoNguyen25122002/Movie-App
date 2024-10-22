@@ -3,9 +3,13 @@ import { createRoot } from "react-dom/client";
 // import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-import MovieDetail from "./pages/MovieDetail.jsx";
-import RootLayout from "./pages/RootLayout.jsx";
+import { lazy } from "react";
+import RootLayout from "@pages/RootLayout";
+import ModalProvider from "@context/ModalProvider";
+const MovieDetail = lazy(() => import("@pages/MovieDetail"));
+const TVShowDetail = lazy(() => import("@pages/TVShowDetail"));
+const HomePage = lazy(() => import("@pages/HomePage"));
+const PeoplePage = lazy(() => import("@pages/PeoplePage"));
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
@@ -18,12 +22,33 @@ const router = createBrowserRouter([
         path: "/movie/:id",
         element: <MovieDetail />,
       },
+      {
+        path: "/tv/:id",
+        element: <TVShowDetail />,
+      },
+      {
+        path: "/people/:id",
+        element: <PeoplePage />,
+        loader: async ({ params }) => {
+          const res = await fetch(
+            `https://api.themoviedb.org/3/person/${params.id}?append_to_response=combined_credits`,
+            {
+              headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+              },
+            },
+          );
+          return res;
+        },
+      },
     ],
   },
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* <App /> */}
-    <RouterProvider router={router} />
+    <ModalProvider>
+      <RouterProvider router={router} />
+    </ModalProvider>
   </StrictMode>,
 );
