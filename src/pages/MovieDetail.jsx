@@ -8,6 +8,7 @@ import useFetch from "@hooks/useFetch";
 
 const MovieDetail = () => {
   const { id } = useParams();
+  // console.log("re-render parent");
 
   //   const [relatedMovie, setRelatedMovie] = useState([]);
   const { data: movieInfo, isLoading } = useFetch({
@@ -58,6 +59,7 @@ const MovieDetail = () => {
               title={"More Like This"}
               mediaList={relatedMovies}
               isLoading={isRelatedMoviesLoading}
+              className={"mt-6"}
             />
           </div>
           <div className="flex-1">

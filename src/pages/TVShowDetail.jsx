@@ -69,6 +69,7 @@ const TVShowDetail = () => {
               title={"More Like This"}
               mediaList={relatedTVShow}
               isLoading={isRecommendationLoading}
+              className={"mt-6"}
             />
           </div>
           <div className="flex-1">
